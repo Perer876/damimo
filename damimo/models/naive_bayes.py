@@ -1,12 +1,12 @@
 """
-Zero-R Model
+Naïve Bayes Model
 """
 import pandas as pd
 from damimo import Model
 from damimo.helpers import helper
 
 
-class ZeroR(Model):
+class NaiveBayes(Model):
     def __init__(self, class_col):
         self.class_col = class_col
 

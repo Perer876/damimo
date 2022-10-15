@@ -1,5 +1,10 @@
-from damimo import Model
+"""
+One-R Model
+"""
+import pandas as pd
 from dataclasses import dataclass
+from damimo import Model
+from damimo.helpers import helper
 
 
 @dataclass
@@ -20,13 +25,8 @@ class OneR(Model):
         self.class_col = class_col
         self.attributes = attributes
 
-    def train(self, data_set):
+    def train(self, data_set: pd.DataFrame):
         pass
 
-    def predict(self, row):
+    def predict(self, instance: pd.Series):
         pass
-
-    def predict_all(self, data_set):
-        pass
-
-

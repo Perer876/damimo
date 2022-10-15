@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def frecuency(data_set, attribute_name, class_name=None):
+def frecuency(data_set: pd.DataFrame, attribute_name, class_name=None):
     """
     Devuelve una tabla de frecuencia simple si solo se proporciona el el nombre
     del atributo, es decir, cuenta la apacición de cada valor por esa columna.
