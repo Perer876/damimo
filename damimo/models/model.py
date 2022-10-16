@@ -7,6 +7,7 @@ import pandas as pd
 
 class Model(ABC):
     class_col: str
+    attributes: tuple
 
     @abstractmethod
     def train(self, data_set: pd.DataFrame):
@@ -44,3 +45,11 @@ class Model(ABC):
             data=predictions,
             index=data_set.index
         )
+
+    def get_attributes(self, data_set: pd.DataFrame):
+        """
+        Devuelve una lista con los atributos de determinado conjunto
+        de datos. Lo que hace es tomar la lista de columnas y excluye
+        la columna clase.
+        """
+        return tuple(col for col in data_set.columns if col != self.class_col)
