@@ -25,7 +25,7 @@ class NaiveBayes(Model):
             frecuency_table = frecuency_table.applymap(lambda x: x + 1)
 
             # Calculamos la suma de ocurrencias por clase
-            sums = frecuency_table.sum(axis=0)
+            sums = frecuency_table.sum()
 
             # Generamos tabla de verosimilitud
             likelihood_table = frecuency_table.apply(lambda x: x.apply(lambda y: Fraction(y, sums[x.name])))
@@ -37,22 +37,31 @@ class NaiveBayes(Model):
         self.likelihood_tables[self.class_col] = frecuency_table.apply(lambda x: Fraction(x, sum_))
 
     def predict(self, instance: pd.Series):
-        pass
+        # Calcula las probabilidades por cada valor de clase
+        pr = pd.Series(dtype=float)
+        for class_value in self.likelihood_tables[self.class_col].index:
+            pr[class_value] = self.pr(class_value, instance) * 1.0
 
+        # Normalizamos
+        pr_sum = pr.sum()
+        pr = pr.apply(lambda x: x / pr_sum)
 
-file_path = "C:\\Users\\peter\\Documents\\Escuela\\7mo Semestre\\Minería de Datos\\damimo\\lenses.csv"
-columns = ["age", "prescription", "astigmatic", "tear_rate", "lenses"]
-class_ = "lenses"
-attribute_types = []
+        # Devolvemos el valor maximo
+        return pr.idxmax()
 
-df = pd.read_csv(
-    file_path,
-    skiprows=[0, 1, 2],
-    names=columns,
-)
+    def pr(self, class_value, instance: pd.Series):
+        """
+        Devuelve la probabilidad a posteriori para un determinado
+        valor de clase e instancia.
+        """
+        res = 1
+        for attribute in self.attributes:
+            res *= self.pr_ind(attribute, instance[attribute], class_value)
+        return res * self.likelihood_tables[self.class_col][class_value]
 
-nb = NaiveBayes(class_)
-nb.train(df)
-# print("------------------------------")
-# for col, ft in nb.likelihood_tables.items():
-#     print(ft, "\n\n")
+    def pr_ind(self, attribute, value, class_value):
+        """
+        Devuelve la probabilidad individual para un determinado
+        valor de un atributo y la el valor de clase.
+        """
+        return self.likelihood_tables[attribute][class_value][value]
