@@ -21,7 +21,7 @@ def main():
     # Ejecutamos las pruebas.
     #   Indicamos que tome el 70% para conjunto de entrenamiento.
     #   Y que repita el entrenamiento 50 veces (en cero-r solo se necesita 1)
-    result = tester.test(0.7, 10000)
+    result = tester.test(0.7, 1000)
 
     # Mostramos resultados (o lo vaciamos en un archivo)
     print(result)
