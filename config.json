@@ -1,0 +1,12 @@
+{
+  "model": "naive-bayes",
+  "data_set_path": "db.csv",
+  "skip_rows": [0],
+  "attributes": ["Compra", "Mantenimiento", "Puertas", "Personas"],
+  "class": "Clase",
+  "numeric_attributes": ["Puertas"],
+  "test": {
+    "train_frac": 0.7,
+    "times": 1
+  }
+}
