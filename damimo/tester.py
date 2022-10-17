@@ -27,7 +27,10 @@ class Tester:
         Si train_frac es 1, entrena y prueba con el conjunto entero.
         """
         # Obtenemos los conjuntos de entrenamiento y prueba.
-        train_df, test_df = self.split(train_frac)
+        if train_frac == 1:
+            train_df, test_df = self.data_set, self.data_set
+        else:
+            train_df, test_df = self.split(train_frac)
 
         # Entrenamos el modelo
         self.model.train(train_df)
@@ -37,7 +40,7 @@ class Tester:
 
         # Comparar predict con las clases correctas y determinar aciertos y
         # cantidad de instancias
-        pass
+        return helper.compare(predict, test_df[self.model.class_col])
 
     def test(self, train_frac: float, times=1):
         """
@@ -45,4 +48,11 @@ class Tester:
         el % de instancias para entrenamiento. Se apoya en el metodo
         test_once
         """
-        pass
+        success = 0
+        instances = 0
+        for i in range(0, times):
+            ind_succ, ind_inst = self.test_once(train_frac)
+            success += ind_succ
+            instances += ind_inst
+        mean = success / instances
+        return success, instances, mean

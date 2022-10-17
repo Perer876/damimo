@@ -61,3 +61,15 @@ def get_pdf_for(values: pd.Series):
         return pdf(x, mean, std)
 
     return short_pdf
+
+
+def compare(values: pd.Series, other_values: pd.Series):
+    """
+    Compara dos arreglos de datos y devuelve los aciertos
+    (cantidad de veces que se emparejaron los valores) contra
+    la cantidad de valores probados.
+    """
+    success: pd.Series = values == other_values
+    success_count = success.value_counts()
+    return success_count[True] if True in success_count else 0, success.count()
+
