@@ -5,18 +5,11 @@ from damimo.models.one_r import OneR
 
 def main():
     # Cargar los datos
-    df = pd.read_csv(
-        "db.csv",
-        skiprows=[0],
-        names=["Compra", "Mantenimiento", "Puertas", "Personas", "Clase"],
-    )
 
     # Creamos el modelo (para one-r y naive bayes puede haber mas parametros)
     #zr = ZeroR("Clase")
-    oneR = OneR('Clase')
-
-    oneR.train(df)
-
+    
+    pass
     # Instanciamos el tester.
     #   Le pasamos el modelo
     #   Y el conjunto de datos completo
