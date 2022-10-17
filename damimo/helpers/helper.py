@@ -1,4 +1,7 @@
 import pandas as pd
+from math import pi, e, sqrt
+
+__sqrt_2pi = sqrt(2 * pi)  # La raiz cuadra de 2 multiplicado por pi
 
 
 def frecuency(data_set: pd.DataFrame, attribute_name, class_name=None):
@@ -26,3 +29,35 @@ def split(data_set: pd.DataFrame, train_frac: float = 1):
     return train_data_set, test_data_set
 
 
+def values_per_class(data_set: pd.DataFrame, attribute_name, class_name=None):
+    """
+    Devuelve los valores del atributo especificado que coincidan con la
+    clase.
+    """
+    values = {}
+    for class_value in data_set[class_name].unique():
+        values[class_value] = data_set[data_set[class_name] == class_value][attribute_name]
+    return values
+
+
+def pdf(x, mean, std):
+    """
+    Probability Density Function (PDF).
+    """
+    factor1 = 1 / (__sqrt_2pi * std)
+    factor2 = e ** -(((x - mean) ** 2) / (2 * std ** 2))
+    return factor1 * factor2
+
+
+def get_pdf_for(values: pd.Series):
+    """
+    Devuelve la función de densidad de probabilidad asociada
+    a un arreglo de valores.
+    """
+    mean = values.mean()
+    std = values.std(ddof=0)
+
+    def short_pdf(x):
+        return pdf(x, mean, std)
+
+    return short_pdf
