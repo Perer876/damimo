@@ -7,6 +7,6 @@
   "numeric_attributes": ["Puertas"],
   "test": {
     "train_frac": 0.7,
-    "times": 1
+    "times": 100
   }
 }

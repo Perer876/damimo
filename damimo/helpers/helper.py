@@ -1,7 +1,9 @@
 import pandas as pd
 from math import pi, e, sqrt
+from sys import float_info
 
 __sqrt_2pi = sqrt(2 * pi)  # La raiz cuadra de 2 multiplicado por pi
+__small_number = sqrt(float_info.min)
 
 
 def frecuency(data_set: pd.DataFrame, attribute_name, class_name=None):
@@ -44,6 +46,9 @@ def pdf(x, mean, std):
     """
     Probability Density Function (PDF).
     """
+    # Evitamos dividir por 0 asignandole un valor muy pequeño.
+    if std == 0:
+        std = __small_number
     factor1 = 1 / (__sqrt_2pi * std)
     factor2 = e ** -(((x - mean) ** 2) / (2 * std ** 2))
     return factor1 * factor2

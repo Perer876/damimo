@@ -27,6 +27,7 @@ class NumericHandler:
 
 class NaiveBayes(Model):
     likelihood_tables: dict = {}
+    class_frecuency: pd.Series
 
     def __init__(self, class_col, numeric_attr=None):
         self.class_col = class_col
@@ -45,9 +46,9 @@ class NaiveBayes(Model):
                 self.likelihood_tables[attribute] = self.likelihood(data_set, attribute)
 
         # Generamos tabla de frecuencia para la clase y su tabla de verosimilitud
-        frecuency_table = helper.frecuency(data_set, self.class_col)
-        sum_ = frecuency_table.sum()
-        self.likelihood_tables[self.class_col] = frecuency_table.apply(lambda x: Fraction(x, sum_))
+        self.class_frecuency = helper.frecuency(data_set, self.class_col)
+        sum_ = self.class_frecuency.sum()
+        self.likelihood_tables[self.class_col] = self.class_frecuency.apply(lambda x: Fraction(x, sum_))
 
     def likelihood(self, data_set: pd.DataFrame, attribute):
         """
@@ -101,4 +102,7 @@ class NaiveBayes(Model):
         Devuelve la probabilidad individual para un determinado
         valor de un atributo y la el valor de clase.
         """
-        return self.likelihood_tables[attribute][class_value][value]
+        likelihood_table = self.likelihood_tables[attribute][class_value]
+        if type(likelihood_table) is NumericHandler or value in likelihood_table:
+            return likelihood_table[value]
+        return Fraction(1, self.class_frecuency[class_value])
