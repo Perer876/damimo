@@ -20,13 +20,14 @@ class KNearestNeighbors(Model):
 
     def predict(self, instance: pd.Series):
         distances = self.distances(instance)
-        smallest_distances = self.smallest_values(distances)
+        print(distances)
+        # smallest_distances = self.smallest_values(distances)
 
         # De los indices de las distancias mas cercanas, sacar las
         # clases mas cercanas
-        nearest_classes = pd.Series()
+        # nearest_classes = pd.Series()
 
-        return self.calculate(nearest_classes)
+        # return self.calculate(nearest_classes)
 
     def distances(self, instance: pd.Series) -> pd.Series:
         """
@@ -34,14 +35,16 @@ class KNearestNeighbors(Model):
         instancia y el conjunto de datos. Cada distancia debe
         recordar el indice de su instancia en el conjunto de datos
         """
-        pass
+        result = pd.Series(dtype=float, index=self.data_set.index)
+
+        return None
 
     def smallest_values(self, values: pd.Series) -> pd.Series:
         """
         Debe regresar los k valores mas pequeños en un arreglo.
         Se basa en el k de la clase
         """
-        pass
+        return values.nsmallest(self.k)
 
     def calculate(self, nearest_class_values: pd.Series):
         """
