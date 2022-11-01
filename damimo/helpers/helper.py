@@ -1,8 +1,6 @@
 import pandas as pd
 from math import pi, e, sqrt, dist
 from sys import float_info
-from scipy.spatial.distance import cityblock
-from scipy.spatial.distance import hamming
 __sqrt_2pi = sqrt(2 * pi)  # La raiz cuadra de 2 multiplicado por pi
 __small_number = sqrt(float_info.min)
 
@@ -81,15 +79,28 @@ def compare(values: pd.Series, other_values: pd.Series):
 
 
 def euclidean_distance(values: pd.Series, other_values: pd.Series):
-    euclidian = dist(pd.Series,pd.other_values)
-    return euclidian
+    """
+    Calcula la distancia euclidiana entre dos puntos dados.
+    """
+    return dist(values, other_values)
 
 
 def manhattan_distance(values: pd.Series, other_values: pd.Series):
-    manhattan = cityblock(pd.values, pd.othervalues)
-    return manhattan
+    """
+    Calcula la distancia de manhattan entre dos puntos dados.
+    """
+    result = 0.0
+    for col in values.index:
+        result += abs(values[col] - other_values[col])
+    return result
 
 
 def hamming_distance(values: pd.Series, other_values: pd.Series):
-    distance = hamming(pd.values,pd.othervalues)
-    return hamming_distance
+    """
+    Calcula la distancia de hamming entre dos puntos dados.
+    """
+    result = 0
+    for col in values.index:
+        if values[col] != other_values[col]:
+            result += 1
+    return result

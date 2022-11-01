@@ -1,5 +1,6 @@
 import pandas as pd
 from damimo import ZeroR, OneR, NaiveBayes, KNearestNeighbors, Tester
+from damimo.helpers.helper import manhattan_distance
 import json
 
 with open("config.json", "r") as jsonfile:
@@ -55,9 +56,9 @@ if __name__ == "__main__":
                           'Bar': 5.8,
                           'Baz': 6.8})
 
-    knn = KNearestNeighbors('Clase', k=3)
+    knn = KNearestNeighbors('Clase', k=3, dist=manhattan_distance)
     knn.train(df)
     knn.predict(instance)
 
-    print(knn.data_set)
+    # print(knn.data_set)
 
