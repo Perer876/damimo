@@ -1,6 +1,7 @@
 """
 K-Nearest Neighbors
 """
+from statistics import mode
 import pandas as pd
 from damimo import Model
 from damimo.helpers import helper
@@ -25,7 +26,7 @@ class KNearestNeighbors(Model):
         # Obtenemos las distancias mas pequeñas
         smallest_distances = self.smallest_values(distances)
 
-        # Obtenermos las clases de las distancias mas pequeñas
+        # Obtenemos las clases de las distancias mas pequeñas
         classes = self.data_set.iloc[smallest_distances.index][self.class_col]
 
         # Predecimos el valor con esas clasess
@@ -54,5 +55,9 @@ class KNearestNeighbors(Model):
         Debe recibir el valor de las clases mas cercanas y devuelve la
         predicción para las mismas
         """
-        pass
+        if self.regression:
+            return nearest_class_values.mean()
 
+        mode = nearest_class_values.mode()
+        most_freq_random_value = mode.sample()[0]
+        return most_freq_random_value

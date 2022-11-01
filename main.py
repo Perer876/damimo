@@ -49,16 +49,15 @@ if __name__ == "__main__":
 
     df = pd.DataFrame({'Foo': [10.2, 8.2, 7.1, 8.5, 9.3],
                        'Bar': [5.1, 6.2, 5.1, 5.2, 6.1],
-                       'Baz': [7.1, 8.2, 6.9, 7.8, 7.6],
-                       'Clase': ["A", "B", "A", "C", "C"]})
+                       'Baz': [7.1, 8.2, 6.9, 7.8, 7.6]})
 
     instance = pd.Series({'Foo': 10.0,
                           'Bar': 5.8,
-                          'Baz': 6.8})
+                          })
 
-    knn = KNearestNeighbors('Clase', k=3, dist=manhattan_distance)
+    knn = KNearestNeighbors('Baz', k=3, dist=manhattan_distance, regression=True)
     knn.train(df)
     knn.predict(instance)
 
-    # print(knn.data_set)
+    print(knn.data_set)
 
