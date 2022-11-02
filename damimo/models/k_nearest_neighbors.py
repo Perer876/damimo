@@ -1,7 +1,6 @@
 """
 K-Nearest Neighbors
 """
-from statistics import mode
 import pandas as pd
 from damimo import Model
 from damimo.helpers import helper
@@ -59,5 +58,4 @@ class KNearestNeighbors(Model):
             return nearest_class_values.mean()
 
         mode = nearest_class_values.mode()
-        most_freq_random_value = mode.sample()[0]
-        return most_freq_random_value
+        return mode[0]

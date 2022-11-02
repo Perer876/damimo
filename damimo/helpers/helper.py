@@ -1,6 +1,7 @@
 import pandas as pd
 from math import pi, e, sqrt, dist
 from sys import float_info
+
 __sqrt_2pi = sqrt(2 * pi)  # La raiz cuadra de 2 multiplicado por pi
 __small_number = sqrt(float_info.min)
 
@@ -104,3 +105,31 @@ def hamming_distance(values: pd.Series, other_values: pd.Series):
         if values[col] != other_values[col]:
             result += 1
     return result
+
+
+def mixed_dist(values: pd.Series, other_values: pd.Series, discrete_attr=None):
+    """
+    Calcula la distancia entre dos vectores con atributos mixtos (categoricos
+    y númericos)
+    """
+    if discrete_attr is None:
+        discrete_attr = []
+    result = 0.0
+    for col in values.index:
+        if col in discrete_attr:
+            if values[col] != other_values[col]:
+                result += 1
+        else:
+            result += abs(values[col] - other_values[col])
+    return result
+
+
+def get_mixed_dist_func_for(discrete_attr):
+    """
+    Devuelve una función de distancia mixta que trabaja que ya
+    conoce cuales son los atributos discretos.
+    """
+    def mixed_dist_func(values: pd.Series, other_values: pd.Series):
+        return mixed_dist(values, other_values, discrete_attr)
+
+    return mixed_dist_func

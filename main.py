@@ -1,6 +1,6 @@
 import pandas as pd
 from damimo import ZeroR, OneR, NaiveBayes, KNearestNeighbors, Tester
-from damimo.helpers.helper import manhattan_distance
+from damimo.helpers.helper import manhattan_distance, get_mixed_dist_func_for
 import json
 
 with open("config.json", "r") as jsonfile:
@@ -49,15 +49,16 @@ if __name__ == "__main__":
 
     df = pd.DataFrame({'Foo': [10.2, 8.2, 7.1, 8.5, 9.3],
                        'Bar': [5.1, 6.2, 5.1, 5.2, 6.1],
-                       'Baz': [7.1, 8.2, 6.9, 7.8, 7.6]})
+                       'Baz': ["ho", "ha", "he", "ho", "ho"],
+                       'Clase': ["A", "B", "A", "C", "C"]})
 
-    instance = pd.Series({'Foo': 10.0,
-                          'Bar': 5.8,
-                          })
+    instance = pd.Series({'Foo': 8.2,
+                          'Bar': 6.2,
+                          'Baz': "ha"})
 
-    knn = KNearestNeighbors('Baz', k=3, dist=manhattan_distance, regression=True)
+    mixed_dist = get_mixed_dist_func_for(['Baz'])
+    knn = KNearestNeighbors('Clase', k=2, dist=mixed_dist)
     knn.train(df)
-    knn.predict(instance)
 
-    print(knn.data_set)
-
+    print(knn.predict(instance))
+    # print(mixed_dist(instance, instance2))
